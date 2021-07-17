@@ -1,4 +1,5 @@
 import View from './View.js';
+// import { Fraction } from './../../../node_modules/Fraction/'
 
 class RecipeView extends View {
   _parentElement = document.querySelector('.recipe');
@@ -102,9 +103,10 @@ class RecipeView extends View {
   }
 
   _generateMarkupIngredient(ing) {
-    let qnt = ing.quantity.toString();
-    if (qnt.includes('.')) {
+    let qnt = ing.quantity?.toString();
+    if (qnt?.includes('.')) {
       let floatNumber = qnt.split('.');
+      console.log(new Fraction(+floatNumber[1], 100))
       let fractionValue = new Fraction(+floatNumber[1], 100).toString();
       qnt = +floatNumber[0] > 0 ? floatNumber[0] + fractionValue : fractionValue;
     }

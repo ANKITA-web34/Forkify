@@ -2,23 +2,23 @@
 // import { async } from 'regenerator-runtime';
 // import 'core-js/stable';
 // import 'regenerator-runtime/runtime';
-import * as model from './model.js';
-import recipeView from './views/recipeView.js';
-import searchView from './views/searchView.js';
-import resultView from './views/resultView.js';
-import paginationView from './views/paginationView.js';
+import * as model from "./model.js";
+import recipeView from "./views/recipeView.js";
+import searchView from "./views/searchView.js";
+import resultView from "./views/resultView.js";
+import paginationView from "./views/paginationView.js";
 
 // https://forkify-api.herokuapp.com/v2
 ///////////////////////////////////////
 
-if(model.hot) {
+if (model.hot) {
   model.hot.accept();
-};
+}
 
 const controlRecipes = async function () {
-  try { 
-    const id = window.location.hash.slice(1);     
-    if(!id) return;
+  try {
+    const id = window.location.hash.slice(1);
+    if (!id) return;
     recipeView.renderSpinner();
 
     //0) update result view to mark selected result
@@ -26,20 +26,21 @@ const controlRecipes = async function () {
 
     // 1) Loading recipe
     await model.loadRecipe(id);
-   
+
     // 2) Rendering recipe
     recipeView.render(model.state.recipe);
   } catch (err) {
+    console.log(err);
     recipeView.renderError();
   }
 };
 
-const controlSearchResult = async function() {
+const controlSearchResult = async function () {
   try {
-    resultView.renderSpinner(); 
+    resultView.renderSpinner();
     //1) get search query
     const query = searchView.getQuery();
-    if(!query) return;
+    if (!query) return;
 
     //2) load search query
     await model.loadSearchResult(query);
@@ -55,15 +56,15 @@ const controlSearchResult = async function() {
   }
 };
 
-const controlPagination = function(goToPage) {
-   // 1) Render NEW results
-   resultView.render(model.getSearchResultPage(goToPage));
+const controlPagination = function (goToPage) {
+  // 1) Render NEW results
+  resultView.render(model.getSearchResultPage(goToPage));
 
-   // 2) Render NEW pagination buttons
-   paginationView.render(model.state.search);
+  // 2) Render NEW pagination buttons
+  paginationView.render(model.state.search);
 };
 
-const controlServings = function(newServings) {
+const controlServings = function (newServings) {
   //update the recipe servings (In state)
   model.updateServings(newServings);
 
@@ -72,7 +73,7 @@ const controlServings = function(newServings) {
   recipeView.update(model.state.recipe);
 };
 
-const init = function() {
+const init = function () {
   recipeView.addHandlerRender(controlRecipes);
   recipeView.addHandlerUpdateServings(controlServings);
   searchView.addHandlerSearch(controlSearchResult); //calling controlSearchResult by clicking search button
