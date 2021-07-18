@@ -68,7 +68,7 @@ const controlServings = function (newServings) {
   model.updateServings(newServings);
 
   //update the recipe view
-  // recipeView.render(model.state.recipe);
+  // recipeView.render(model.state.recipe)
   recipeView.update(model.state.recipe);
 };
 
@@ -77,7 +77,7 @@ const controlAddBookmark = function() {
    model.addBookmark(model.state.recipe); 
 
   else model.deleteBookmark(model.state.recipe.id);
-  
+
   recipeView.update(model.state.recipe);
 };
 
