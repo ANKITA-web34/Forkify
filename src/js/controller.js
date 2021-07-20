@@ -19,21 +19,25 @@ if (model.hot) {
 const controlRecipes = async function () {
   try {
     const id = window.location.hash.slice(1);
+    
     if (!id) return;
     recipeView.renderSpinner();
 
     //0) update result view to mark selected result
     resultView.update(model.getSearchResultPage());
+
+    // 1) updating bookmarks view
     bookmarksView.update(model.state.bookmarks);
-
-    // 1) Loading recipe
+    
+    // 2) Loading recipe
     await model.loadRecipe(id);
-
-    // 2) Rendering recipe
+    
+    // 3) Rendering recipe
     recipeView.render(model.state.recipe);
+    
   } catch (err) {
-    console.log(err);
     recipeView.renderError();
+    console.error(err);
   }
 };
 
@@ -88,7 +92,12 @@ const controlAddBookmark = function() {
   bookmarksView.render(model.state.bookmarks);
 };
 
+const controlBookmarks = function() {
+  bookmarksView.render(model.state.bookmarks);
+}
+
 const init = function () {
+  bookmarksView.addHandlerRender(controlBookmarks);
   recipeView.addHandlerRender(controlRecipes);
   recipeView.addHandlerUpdateServings(controlServings);
   recipeView.addHandlerAddBookmark(controlAddBookmark);
