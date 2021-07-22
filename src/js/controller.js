@@ -97,9 +97,13 @@ const controlBookmarks = function() {
   bookmarksView.render(model.state.bookmarks);
 }
 
-const controlAddRecipe = function(newRacipe) {
-  console.log(newRacipe);
-
+const controlAddRecipe = async function(newRacipe) {
+  try{
+    await model.uploadRecipe(newRacipe);
+  }catch(err) {
+    console.error(err);
+    addRecipeView.renderError(err.message);
+  }
   //upload new racipe data
 }
 
