@@ -25,7 +25,7 @@ export const sendJSON = async function (url, uploadData) {
     const fetchPro = fetch(url, {
         method: 'POST',
         headers: {
-          'Context-Type': 'application/json'
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(uploadData),
       });
