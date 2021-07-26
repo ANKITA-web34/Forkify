@@ -1,6 +1,7 @@
 // import { async } from 'regenerator-runtime';
 import { API_URL, RES_PER_PAGE, API_KEY } from "./config.js";
-import { getJSON, sendJSON } from "./helpers.js";
+import { AJAX } from './helpers.js';
+// import { getJSON, sendJSON } from "./helpers.js";
 
 export const state = {
   recipe: {},
@@ -122,23 +123,23 @@ const clearBookmarks = function () {
 // clearBookmarks();
 
 export const uploadRecipe = async function (newRacipe) {
-  console.log(newRacipe);
   try {
     const ingredients = Object.entries(newRacipe)
-      .filter((entry) => entry[0].startsWith("ingredient") && entry[1] !== "")
-      .map((ing) => {
-        const ingArr = ing[1].replaceAll(" ", "").split(",");
-
-        if (ingArr.length !== 3)
-          throw new Error(
-            "Worng ingredient format ! Please use the correct format !"
-          );
-
+    .filter((entry) => entry[0].startsWith("ingredient") && entry[1] !== "")
+    .map((ing) => {
+      const ingArr = ing[1].replaceAll(" ", "").split(",");
+      
+      if (ingArr.length !== 3)
+      throw new Error(
+        "Worng ingredient format ! Please use the correct format !"
+        );
+        
         const [quantity, unit, description] = ingArr;
-
+        
         return { quantity: quantity ? +quantity : null, unit, description };
       });
-
+      
+    console.log(newRacipe);
     console.log(ingredients);
 
     const recipe = {
