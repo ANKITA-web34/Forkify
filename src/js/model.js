@@ -13,19 +13,19 @@ export const state = {
   bookmarks: [],
 };
 
-const createRecipeObject = function(data) {
+const createRecipeObject = function (data) {
   const { recipe } = data.data;
-    return {
-      id: recipe.id,
-      title: recipe.title,
-      publisher: recipe.publisher,
-      sourceUrl: recipe.source_url,
-      imageUrl: recipe.image_url,
-      servings: recipe.servings,
-      cookingTime: recipe.cooking_time,
-      ingredients: recipe.ingredients,
-      ...(recipe.key && {key:recipe.key}),
-    };
+  return {
+    id: recipe.id,
+    title: recipe.title,
+    publisher: recipe.publisher,
+    sourceUrl: recipe.source_url,
+    imageUrl: recipe.image_url,
+    servings: recipe.servings,
+    cookingTime: recipe.cooking_time,
+    ingredients: recipe.ingredients,
+    ...(recipe.key && { key: recipe.key }),
+  };
 };
 
 export const loadRecipe = async function (id) {
@@ -121,20 +121,25 @@ const clearBookmarks = function () {
 };
 // clearBookmarks();
 
-export const uploadRecipe = async function(newRacipe) {
-  try{
-  const ingredients = Object.entries(newRacipe).filter(
-    entry => entry[0].startsWith("ingredient") && entry[1] !== '')
-    .map(ing => {
-      const ingArr = ing[1].replaceAll(' ', '').split(',');
-      
-      if(ingArr.length !== 3) throw new Error
-        ("Worng ingredient format ! Please use the correct format !")
-      
-      const [quantity, unit, description] = ingArr;
-      
-      return { quantit: quantity ? +quantity : null, unit, description };
-    });
+export const uploadRecipe = async function (newRacipe) {
+  console.log(newRacipe);
+  try {
+    const ingredients = Object.entries(newRacipe)
+      .filter((entry) => entry[0].startsWith("ingredient") && entry[1] !== "")
+      .map((ing) => {
+        const ingArr = ing[1].replaceAll(" ", "").split(",");
+
+        if (ingArr.length !== 3)
+          throw new Error(
+            "Worng ingredient format ! Please use the correct format !"
+          );
+
+        const [quantity, unit, description] = ingArr;
+
+        return { quantity: quantity ? +quantity : null, unit, description };
+      });
+
+    console.log(ingredients);
 
     const recipe = {
       title: newRacipe.title,
@@ -145,12 +150,11 @@ export const uploadRecipe = async function(newRacipe) {
       servings: +newRacipe.servings,
       ingredients,
     };
-   
+
     const data = await sendJSON(`${API_URL}?key=${API_KEY}`, recipe);
     state.recipe = createRecipeObject(data);
     addBookmark(state.recipe);
-  } catch(err) {
+  } catch (err) {
     throw err;
   }
-
-}
+};

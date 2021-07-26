@@ -122,7 +122,7 @@ const controlAddRecipe = async function(newRacipe) {
     addRecipeView.renderError(err.message);
   }
   //upload new racipe data
-}
+};
 
 const init = function () {
   bookmarksView.addHandlerRender(controlBookmarks);
