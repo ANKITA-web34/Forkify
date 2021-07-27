@@ -114,6 +114,7 @@ const controlAddRecipe = async function(newRacipe) {
 
     //render bookmarkview
     bookmarksView.render(model.state.bookmarks);
+    console.log(model.state.bookmarks);
 
     //Chnage id in url
     window.history.pushState(null,'',`#${model.state.recipe.id}`);
